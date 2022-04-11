@@ -1,8 +1,10 @@
 package ro.pub.cs.systems.eim.practicaltest01var05;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +15,7 @@ public class PracticalTest01Var05MainActivity extends AppCompatActivity {
 
     private int numberOfClicks = 0;
     private EditText editText;
-    private Button topLeft, topRight, center, bottomLeft, bottomRight;
+    private Button topLeft, topRight, center, bottomLeft, bottomRight, navigateToSecondary;
 
     private ButtonClickListener buttonClickListener = new ButtonClickListener();
     private class ButtonClickListener implements View.OnClickListener {
@@ -61,6 +63,11 @@ public class PracticalTest01Var05MainActivity extends AppCompatActivity {
                     }
                     numberOfClicks++;
                     break;
+                case R.id.navigate_to_secondary_activity_button:
+                    Intent intent = new Intent(getApplicationContext(), PracticalTest01Var05SecondaryActivity.class);
+                    intent.putExtra(Constants.NUMBER_OF_CLICKS, numberOfClicks);
+                    startActivityForResult(intent, Constants.SECONDARY_ACTIVITY_REQUEST_CODE);
+                    break;
             }
         }
     }
@@ -76,6 +83,8 @@ public class PracticalTest01Var05MainActivity extends AppCompatActivity {
         center = findViewById(R.id.center);
         bottomLeft = findViewById(R.id.bottom_left);
         bottomRight = findViewById(R.id.bottom_right);
+        navigateToSecondary = findViewById(R.id.navigate_to_secondary_activity_button);
+
 
         editText.setText("");
         topLeft.setOnClickListener(buttonClickListener);
@@ -83,6 +92,7 @@ public class PracticalTest01Var05MainActivity extends AppCompatActivity {
         center.setOnClickListener(buttonClickListener);
         bottomLeft.setOnClickListener(buttonClickListener);
         bottomRight.setOnClickListener(buttonClickListener);
+        navigateToSecondary.setOnClickListener(buttonClickListener);
     }
 
     @Override
@@ -95,5 +105,14 @@ public class PracticalTest01Var05MainActivity extends AppCompatActivity {
         if (savedInstanceState.containsKey(Constants.NUMBER_OF_CLICKS)) {
             Toast.makeText(this, "" + savedInstanceState.getInt(Constants.NUMBER_OF_CLICKS), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == Constants.SECONDARY_ACTIVITY_REQUEST_CODE) {
+            Toast.makeText(this, "The activity returned with result " + resultCode, Toast.LENGTH_LONG).show();
+        }
+        editText.setText("");
+        numberOfClicks = 0;
     }
 }

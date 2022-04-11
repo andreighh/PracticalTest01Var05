@@ -6,4 +6,6 @@
     <string name="bottom_left">BOTTOM LEFT</string>
     <string name="bottom_right">BOTTOM RIGHT</string>
     <string name="navigate_to_secondary_activity">Navigate to secondary activity</string>
+    <string name="verify">Verify</string>
+    <string name="cancel">Cancel</string>
 </resources>
